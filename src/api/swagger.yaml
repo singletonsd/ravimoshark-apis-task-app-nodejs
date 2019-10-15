@@ -1,0 +1,904 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Ravimoshark Task API
+  termsOfService: 'https://ravimoshark.com/terms/'
+  contact:
+    email: dev@ravimoshark.com
+    url: 'http://ravimoshark.com/contact'
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  description: |
+    This is an API to interact with Ravimoshark task database.
+    # Introduction
+    This API allow to create, modify and delete task, visits, technicians and interventions.
+    # User Authentication
+    This API does not contain any kind of user validation but It request to have a valid authentication user to interact with it. For more information about user Authentication, please refer to [Ravimoshark User Authentication](https://ravimoshark.com/back/apis/auth/latest).
+externalDocs:
+  description: Find out how to interact with Ravimoshark's APIs.
+  url: 'https://ravimoshark.com/back/apis/auth/latest'
+tags:
+  - name: Tasks
+    description: Operations about tasks.
+  - name: Visits
+    description: Operations about visits.
+  - name: Interventions
+    description: Operations about interventions.
+  - name: Technicians
+    description: Operations about technicians.
+servers:
+  - url: 'http://localhost:8001'
+  - url: 'https://ravimoshark.com/back/apis/task/v1'
+  - url: 'https://ravimoshark.com/back/apis/task/latest'
+paths:
+  /tasks:
+    get:
+      tags:
+        - Tasks
+      summary: Get all tasks.
+      description: Get all tasks.
+      operationId: getTasks
+      parameters:
+        - $ref: '#/components/parameters/Skip'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/OrderBy'
+        - $ref: '#/components/parameters/Filter'
+        - $ref: '#/components/parameters/Deleted'
+        - $ref: '#/components/parameters/Metadata'
+        - $ref: '#/components/parameters/RefClientQuery'
+      responses:
+        '200':
+          description: Request OK.
+          headers:
+            - $ref: '#/components/headers/Limit'
+            - $ref: '#/components/headers/Remaining'
+            - $ref: '#/components/headers/Reset'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metadata:
+                    $ref: '#/components/schemas/Metadata'
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tasks'
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Tasks
+    post:
+      tags:
+        - Tasks
+      summary: Add one task.
+      description: Add one task.
+      operationId: addTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tasks'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Tasks
+    put:
+      tags:
+        - Tasks
+      summary: Edit one task.
+      description: Edit one task.
+      operationId: editTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tasks'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Tasks
+  '/tasks/{id}':
+    get:
+      tags:
+        - Tasks
+      summary: Get one task.
+      description: Get one task.
+      operationId: getTaskById
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/Deleted'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Tasks
+    delete:
+      tags:
+        - Tasks
+      summary: Delete one task.
+      description: Delete one task.
+      operationId: deleteTask
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdInteger'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Tasks
+  /technicians:
+    get:
+      tags:
+        - Technicians
+      summary: Get all technicians.
+      description: Get all technicians.
+      operationId: getTechnicians
+      parameters:
+        - $ref: '#/components/parameters/Skip'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/OrderBy'
+        - $ref: '#/components/parameters/Filter'
+        - $ref: '#/components/parameters/Deleted'
+        - $ref: '#/components/parameters/Metadata'
+        - $ref: '#/components/parameters/RefClientQuery'
+      responses:
+        '200':
+          description: Request OK.
+          headers:
+            - $ref: '#/components/headers/Limit'
+            - $ref: '#/components/headers/Remaining'
+            - $ref: '#/components/headers/Reset'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metadata:
+                    $ref: '#/components/schemas/Metadata'
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Technicians'
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Technicians
+    post:
+      tags:
+        - Technicians
+      summary: Add one technician.
+      description: Add one technician.
+      operationId: addTechnician
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Technicians'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Technicians'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Technicians
+    put:
+      tags:
+        - Technicians
+      summary: Edit one technician.
+      description: Edit one technician.
+      operationId: editTechnician
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Technicians'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Technicians'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Technicians
+  '/technicians/{id}':
+    get:
+      tags:
+        - Technicians
+      summary: Get one technician.
+      description: Get one technician.
+      operationId: getTechnicianById
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/Deleted'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Technicians'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Technicians
+    delete:
+      tags:
+        - Technicians
+      summary: Delete one technician.
+      description: Delete one technician.
+      operationId: deleteTechnician
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdInteger'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Technicians
+  /visits:
+    get:
+      tags:
+        - Visits
+      summary: Get all visits.
+      description: Get all visits.
+      operationId: getVisits
+      parameters:
+        - $ref: '#/components/parameters/Skip'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/OrderBy'
+        - $ref: '#/components/parameters/Filter'
+        - $ref: '#/components/parameters/Deleted'
+        - $ref: '#/components/parameters/Metadata'
+        - $ref: '#/components/parameters/RefClientQuery'
+      responses:
+        '200':
+          description: Request OK.
+          headers:
+            - $ref: '#/components/headers/Limit'
+            - $ref: '#/components/headers/Remaining'
+            - $ref: '#/components/headers/Reset'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metadata:
+                    $ref: '#/components/schemas/Metadata'
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Visits'
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Visits
+    post:
+      tags:
+        - Visits
+      summary: Add one visit.
+      description: Add one visit.
+      operationId: addVisit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Visits'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Visits'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Visits
+    put:
+      tags:
+        - Visits
+      summary: Edit one visit.
+      description: Edit one visit.
+      operationId: editVisit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Visits'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Visits'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Visits
+  '/visits/{id}':
+    get:
+      tags:
+        - Visits
+      summary: Get one visit.
+      description: Get one visit.
+      operationId: getVisitById
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/Deleted'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Visits'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Visits
+    delete:
+      tags:
+        - Visits
+      summary: Delete one visit.
+      description: Delete one visit.
+      operationId: deleteVisit
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdInteger'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Visits
+components:
+  schemas:
+    Addresses:
+      description: Address information.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        refClient:
+          type: string
+        client:
+          $ref: '#/components/schemas/Clients'
+        addressType:
+          type: string
+        delivery:
+          type: string
+        city:
+          type: string
+        complement:
+          type: string
+        country:
+          type: string
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+        name:
+          type: string
+        postalCode:
+          type: string
+        streetName:
+          type: string
+        streetNumber:
+          type: integer
+          format: int64
+        telephone:
+          type: string
+    Clients:
+      description: Client minimum information.
+      type: object
+      properties:
+        refClient:
+          type: string
+        name:
+          type: string
+        nickname:
+          type: string
+        group:
+          type: string
+    CustomError:
+      type: object
+      required:
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: string
+    Deleted:
+      type: string
+      default: ACTIVE
+      enum:
+        - ACTIVE
+        - DELETED
+        - ALL
+    IdInteger:
+      description: Object's Id.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    Interventions:
+      description: Intervention information.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        refArticle:
+          type: string
+        piece:
+          $ref: '#/components/schemas/Pieces'
+        tasksId:
+          type: integer
+          format: int64
+        # TODO: remove comment when circular json is allowed in swagger nodejs lib.
+        # task:
+        #   $ref: '#/components/schemas/Tasks'
+        quantity:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+        deleted:
+          type: boolean
+    Machines:
+      description: Client's machines associated with a contract.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        refArticle:
+          type: string
+        piece:
+          $ref: '#/components/schemas/Pieces'
+        serialNumber:
+          type: string
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+        deleted:
+          type: boolean
+    Metadata:
+      type: object
+      properties:
+        first:
+          type: integer
+          format: int64
+        prev:
+          type: integer
+          format: int64
+        self:
+          type: integer
+          format: int64
+        next:
+          type: integer
+          format: int64
+        last:
+          type: integer
+          format: int64
+    Pieces:
+      description: Pieces minimum information.
+      type: object
+      properties:
+        refArticle:
+          type: string
+        name:
+          type: string
+    Tasks:
+      description: Task information.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        addressId:
+          type: integer
+          format: int64
+        address:
+          $ref: '#/components/schemas/Addresses'
+        technianId:
+          type: integer
+          format: int64
+        technian:
+          $ref: '#/components/schemas/Technicians'
+        taskType:
+          $ref: '#/components/schemas/TaskTypes'
+        machine:
+          $ref: '#/components/schemas/Machines'
+        machineId:
+          type: integer
+          format: int64
+        dateCall:
+          type: string
+          format: date
+        dateFix:
+          type: string
+          format: date
+        problem:
+          type: string
+        solution:
+          type: string
+        priority:
+          type: integer
+          format: int64
+        initiator:
+          type: string
+        ratingClient:
+          type: integer
+          format: int64
+        ratingTech:
+          type: integer
+          format: int64
+        interventions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interventions'
+        interventionsId:
+          type: array
+          items:
+            type: integer
+            format: int64
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+        deleted:
+          type: boolean
+    TaskTypes:
+      description: Type of task.
+      type: string
+      default: UNKNOWN
+      enum:
+        - CANCELLATION
+        - CHANGE_PIECE
+        - STOP_PARTIAL
+        - STOP_TOTAL
+        - PROBLEM_RESULT
+        - UNKNOWN
+    Technicians:
+      description: Technician information.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        sector:
+          type: integer
+          format: int64
+        email:
+          type: string
+    Visits:
+      description: Visit information.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        addressId:
+          type: integer
+          format: int64
+        address:
+          $ref: '#/components/schemas/Addresses'
+        technianId:
+          type: integer
+          format: int64
+        technian:
+          $ref: '#/components/schemas/Technicians'
+        taskType:
+          $ref: '#/components/schemas/TaskTypes'
+        machine:
+          $ref: '#/components/schemas/Machines'
+        machineId:
+          type: integer
+          format: int64
+        dateVisite:
+          type: string
+          format: date
+        comments:
+          type: string
+        th:
+          type: integer
+          format: int64
+        tempWashing:
+          type: integer
+          format: int64
+        tempRinsing:
+          type: integer
+          format: int64
+        conductivity:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+        deleted:
+          type: boolean
+  responses:
+    '204':
+      description: Response is empty.
+      headers:
+        - $ref: '#/components/headers/Limit'
+        - $ref: '#/components/headers/Remaining'
+        - $ref: '#/components/headers/Reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CustomError'
+    '400':
+      description: Some parameters are missing or badly entered.
+      headers:
+        - $ref: '#/components/headers/Limit'
+        - $ref: '#/components/headers/Remaining'
+        - $ref: '#/components/headers/Reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CustomError'
+    '401':
+      description: Unauthorized
+      headers:
+        - $ref: '#/components/headers/Limit'
+        - $ref: '#/components/headers/Remaining'
+        - $ref: '#/components/headers/Reset'
+      content:
+        application/json:
+          schema:
+            type: string
+    '404':
+      description: Entity not found.
+      headers:
+        - $ref: '#/components/headers/Limit'
+        - $ref: '#/components/headers/Remaining'
+        - $ref: '#/components/headers/Reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CustomError'
+    '405':
+      description: Illegal input for operation.
+      headers:
+        - $ref: '#/components/headers/Limit'
+        - $ref: '#/components/headers/Remaining'
+        - $ref: '#/components/headers/Reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CustomError'
+  parameters:
+    Deleted:
+      name: deleted
+      in: query
+      description: 'Get all, deleted, not deleted data. Default not deleted.'
+      required: false
+      schema:
+        $ref: '#/components/schemas/Deleted'
+        default: ACTIVE
+    Filter:
+      name: filterBy
+      description: filter data.
+      in: query
+      required: false
+      schema:
+        type: string
+    Id:
+      name: id
+      description: id to delete or search
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+    Limit:
+      name: limit
+      description: max records to return
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+        default: 10
+    Metadata:
+      name: metadata
+      description: If metadata is needed (for pagination controls)
+      in: query
+      required: false
+      schema:
+        type: boolean
+        default: false
+    OrderBy:
+      name: orderBy
+      description: order by property.
+      in: query
+      required: false
+      schema:
+        type: string
+    RefClientQuery:
+      name: refClient
+      description: Data from a desired contract
+      in: query
+      required: false
+      schema:
+        type: string
+    Skip:
+      name: skip
+      description: number of item to skip
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int32
+        default: 0
+  headers:
+    Limit:
+      description: The number of allowed requests in the current period
+      schema:
+        type: integer
+        format: int64
+    Remaining:
+      description: The number of remaining requests in the current period
+      schema:
+        type: integer
+        format: int64
+    Reset:
+      description: The number of seconds left in the current period
+      schema:
+        type: integer
+        format: int64
+  securitySchemes: {}
