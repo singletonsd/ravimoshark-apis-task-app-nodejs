@@ -32,6 +32,160 @@ servers:
   - url: 'https://ravimoshark.com/back/apis/task/v1'
   - url: 'https://ravimoshark.com/back/apis/task/latest'
 paths:
+  /interventions:
+    get:
+      tags:
+        - Interventions
+      summary: Get all interventions.
+      description: Get all interventions.
+      operationId: getInterventions
+      parameters:
+        - $ref: '#/components/parameters/Skip'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/OrderBy'
+        - $ref: '#/components/parameters/Filter'
+        - $ref: '#/components/parameters/Deleted'
+        - $ref: '#/components/parameters/Metadata'
+        - $ref: '#/components/parameters/RefClientQuery'
+        - $ref: '#/components/parameters/Finished'
+        - $ref: '#/components/parameters/TechnicianIdQuery'
+        - $ref: '#/components/parameters/DateFrom'
+        - $ref: '#/components/parameters/DateUntil'
+      responses:
+        '200':
+          description: Request OK.
+          headers:
+            - $ref: '#/components/headers/Limit'
+            - $ref: '#/components/headers/Remaining'
+            - $ref: '#/components/headers/Reset'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metadata:
+                    $ref: '#/components/schemas/Metadata'
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Interventions'
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Interventions
+    post:
+      tags:
+        - Interventions
+      summary: Add one intervention.
+      description: Add one intervention.
+      operationId: addIntervention
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Interventions'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interventions'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Interventions
+    put:
+      tags:
+        - Interventions
+      summary: Edit one intervention.
+      description: Edit one intervention.
+      operationId: editIntervention
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Interventions'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interventions'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Interventions
+  '/interventions/{id}':
+    get:
+      tags:
+        - Interventions
+      summary: Get one intervention.
+      description: Get one intervention.
+      operationId: getInterventionById
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/Deleted'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interventions'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Interventions
+    delete:
+      tags:
+        - Interventions
+      summary: Delete one intervention.
+      description: Delete one intervention.
+      operationId: deleteIntervention
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        '200':
+          description: Request OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdInteger'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+      x-swagger-router-controller: Interventions
   /tasks:
     get:
       tags:
@@ -47,6 +201,12 @@ paths:
         - $ref: '#/components/parameters/Deleted'
         - $ref: '#/components/parameters/Metadata'
         - $ref: '#/components/parameters/RefClientQuery'
+        - $ref: '#/components/parameters/Finished'
+        - $ref: '#/components/parameters/TechnicianIdQuery'
+        - $ref: '#/components/parameters/DateCallFrom'
+        - $ref: '#/components/parameters/DateCallUntil'
+        - $ref: '#/components/parameters/DateFixFrom'
+        - $ref: '#/components/parameters/DateFixUntil'
       responses:
         '200':
           description: Request OK.
@@ -347,6 +507,7 @@ paths:
         - $ref: '#/components/parameters/Deleted'
         - $ref: '#/components/parameters/Metadata'
         - $ref: '#/components/parameters/RefClientQuery'
+        - $ref: '#/components/parameters/TechnicianIdQuery'
       responses:
         '200':
           description: Request OK.
@@ -534,6 +695,15 @@ components:
           type: string
         group:
           type: string
+        # addresses:
+        #   type: array
+        #   items:
+        #     $ref: '#/components/schemas/Addresses'
+        addressesId:
+          type: array
+          items:
+            type: integer
+            format: int64
     CustomError:
       type: object
       required:
@@ -552,6 +722,13 @@ components:
         - ACTIVE
         - DELETED
         - ALL
+    Finished:
+      type: string
+      default: FINISHED
+      enum:
+        - ALL
+        - FINISHED
+        - UNFINISHED
     IdInteger:
       description: Object's Id.
       type: object
@@ -573,7 +750,6 @@ components:
         tasksId:
           type: integer
           format: int64
-        # TODO: remove comment when circular json is allowed in swagger nodejs lib.
         # task:
         #   $ref: '#/components/schemas/Tasks'
         quantity:
@@ -646,10 +822,10 @@ components:
           format: int64
         address:
           $ref: '#/components/schemas/Addresses'
-        technianId:
+        technicianId:
           type: integer
           format: int64
-        technian:
+        technician:
           $ref: '#/components/schemas/Technicians'
         taskType:
           $ref: '#/components/schemas/TaskTypes'
@@ -673,6 +849,9 @@ components:
           format: int64
         initiator:
           type: string
+        taskTime:
+          type: integer
+          format: int64
         ratingClient:
           type: integer
           format: int64
@@ -733,10 +912,10 @@ components:
           format: int64
         address:
           $ref: '#/components/schemas/Addresses'
-        technianId:
+        technicianId:
           type: integer
           format: int64
-        technian:
+        technician:
           $ref: '#/components/schemas/Technicians'
         taskType:
           $ref: '#/components/schemas/TaskTypes'
@@ -745,7 +924,7 @@ components:
         machineId:
           type: integer
           format: int64
-        dateVisite:
+        dateVisit:
           type: string
           format: date
         comments:
@@ -822,6 +1001,54 @@ components:
           schema:
             $ref: '#/components/schemas/CustomError'
   parameters:
+    DateCallFrom:
+      name: dateFixFrom
+      in: query
+      description: Date fix from
+      required: false
+      schema:
+        type: string
+        format: date
+    DateCallUntil:
+      name: dateCallUntil
+      in: query
+      description: Date call until
+      required: false
+      schema:
+        type: string
+        format: date
+    DateFixFrom:
+      name: dateCallFrom
+      in: query
+      description: Date call from
+      required: false
+      schema:
+        type: string
+        format: date
+    DateFixUntil:
+      name: dateFixUntil
+      in: query
+      description: Date fix until
+      required: false
+      schema:
+        type: string
+        format: date
+    DateFrom:
+      name: dateFrom
+      in: query
+      description: Date from
+      required: false
+      schema:
+        type: string
+        format: date
+    DateUntil:
+      name: dateUntil
+      in: query
+      description: Date until
+      required: false
+      schema:
+        type: string
+        format: date
     Deleted:
       name: deleted
       in: query
@@ -837,6 +1064,14 @@ components:
       required: false
       schema:
         type: string
+    Finished:
+      name: finished
+      in: query
+      description: 'Get all, finished or unfinished task. Default not finished.'
+      required: false
+      schema:
+        $ref: '#/components/schemas/Finished'
+        default: ACTIVE
     Id:
       name: id
       description: id to delete or search
@@ -885,6 +1120,13 @@ components:
         type: integer
         format: int32
         default: 0
+    TechnicianIdQuery:
+      name: technicianId
+      description: Data from a desired technician
+      in: query
+      required: false
+      schema:
+        type: string
   headers:
     Limit:
       description: The number of allowed requests in the current period
@@ -901,4 +1143,3 @@ components:
       schema:
         type: integer
         format: int64
-  securitySchemes: {}
