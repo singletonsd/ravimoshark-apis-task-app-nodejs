@@ -71,7 +71,7 @@ export class Utilities {
         const error = false;
         const response: ParametersComplete = {
             deleted: this.checkDeleted(parameters),
-            filter: this.checkVariableNotNull(parameters, undefined, "filter"),
+            filterBy: this.checkVariableNotNull(parameters, undefined, "filterBy"),
             id: this.checkId(parameters),
             limit: this.checkVariableNotNull(parameters, undefined, "limit"),
             metadata: this.checkVariableNotNull(parameters, undefined, "metadata"),
@@ -147,7 +147,7 @@ export interface ParametersComplete extends ParametersIdDeleted {
     skip: number | null;
     limit: number | null;
     orderBy: string | null;
-    filter: string | null;
+    filterBy: string | null;
     metadata: boolean | null;
     refClient?: string | null;
 }

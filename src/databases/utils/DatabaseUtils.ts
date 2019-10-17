@@ -24,9 +24,9 @@ export class DatabaseUtilities {
     params: ParametersComplete, entity: ObjectType<BaseEntity>,
     relations?: Array<string>, selections?: Array<string>): FindManyOptions {
     let whereObject: { idUser?: number } = {};
-    if (params.filter) {
+    if (params.filterBy) {
       try {
-        whereObject = JSON.parse(params.filter);
+        whereObject = JSON.parse(params.filterBy);
       } catch (e) {
         LoggerUtility.warn("orderBy parameter provided is not in JSON format.", params.orderBy);
       }
