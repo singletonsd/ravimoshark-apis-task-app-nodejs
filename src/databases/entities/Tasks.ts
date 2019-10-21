@@ -18,14 +18,21 @@ export class Tasks {
     public technician?: Technicians | null;
 
     @RelationId((taches: Tasks) => taches.technician)
-    public technicianId?: Array<number>;
+    public technicianId?: number;
+
+    @ManyToOne(() => Technicians, (technician: Technicians) => technician.tasks, {})
+    @JoinColumn({ name: "Initiator" })
+    public initiator?: Technicians | null;
+
+    @RelationId((taches: Tasks) => taches.technician)
+    public initiatorId?: number;
 
     @ManyToOne(() => Machines, (machine: Machines) => machine.tasks, {})
     @JoinColumn({ name: "MachineId" })
     public machine?: Machines | null;
 
     @RelationId((taches: Tasks) => taches.machine)
-    public machineId?: Promise<Array<number>>;
+    public machineId?: number;
 
     @ManyToOne(() => Addresses, (address: Addresses) => address.tasks, {})
     @JoinColumn({ name: "ClientsAddressid" })
@@ -88,12 +95,6 @@ export class Tasks {
         nullable: true
     })
     public solution?: boolean | null;
-
-    @Column("nvarchar", {
-        name: "Initiator",
-        nullable: true
-    })
-    public initiator?: string | null;
 
     @Column("int", {
         name: "Code",

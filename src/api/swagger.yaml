@@ -848,7 +848,10 @@ components:
           type: integer
           format: int64
         initiator:
-          type: string
+          $ref: '#/components/schemas/Technicians'
+        initiatorId:
+          type: integer
+          format: int64
         taskTime:
           type: integer
           format: int64
