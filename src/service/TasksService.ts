@@ -3,13 +3,27 @@
 import { getConnection } from "typeorm";
 import { Tasks } from "../databases/entities";
 import { DatabaseUtilities } from "../databases/utils/DatabaseUtils";
-import { Metadata } from "../models";
+import { Deleted, Metadata } from "../models";
 import { LoggerUtility } from "../utils/LoggerUtility";
 import { ParametersComplete, ParametersIdDeleted, Utilities } from "../utils/utilities";
 import { VALID_RESPONSES } from "../utils/ValidResponses";
+import { AddressesService } from "./AddressesService";
+import { MachinesService } from "./MachinesService";
+import { TechniciansService } from "./TechniciansService";
 
 const SERVICE_NAME = "TasksService";
 export class TasksService {
+
+  public static unsafeProperties = ["priority", "dateFix", "taskTime", "ratingClient", "ratingTech"];
+
+  public static removeUnsafeProperties(item: Tasks): Tasks {
+    this.unsafeProperties.forEach((element) => {
+      if (!item[element]) {
+        delete item[element];
+      }
+    });
+    return item;
+  }
 
   /**
    * Add one task.
@@ -18,14 +32,57 @@ export class TasksService {
    * body Tasks
    * returns Tasks
    */
-  public static add(body) {
-    return new Promise((resolve, reject) => {
-      const examples = {};
-      if (Object.keys(examples).length > 0) {
-        resolve(examples[Object.keys(examples)[0]]);
-      } else {
-        resolve();
-      }
+  public static add(item: Tasks) {
+    const FUNCTION_NAME = "add";
+    const logHeader = `${SERVICE_NAME}: ${FUNCTION_NAME} -`;
+    return new Promise<Tasks>(async (resolve, reject) => {
+        LoggerUtility.info(`${logHeader}`);
+        LoggerUtility.debug(`${logHeader}`, item);
+        const machineId = item.machine ? item.machine.id : item.machineId;
+        if (machineId && ! await MachinesService.exists(machineId)) {
+            reject(VALID_RESPONSES.ERROR.NOT_EXIST.MACHINE);
+            return;
+        }
+        delete item.machine;
+        delete item.machineId;
+        item.machine = { id: machineId };
+        LoggerUtility.info(`${logHeader} valid machine ${machineId}`);
+        const technicianId = item.technician ? item.technician.id : item.technicianId;
+        if (technicianId && ! await TechniciansService.exists(technicianId)) {
+          reject(VALID_RESPONSES.ERROR.NOT_EXIST.TECHNICIAN);
+          return;
+        }
+        delete item.technician;
+        delete item.technicianId;
+        item.technician = { id: technicianId };
+        const initiatorId = item.initiator ? item.initiator.id : item.initiatorId;
+        if (initiatorId && ! await TechniciansService.exists(technicianId)) {
+          reject(VALID_RESPONSES.ERROR.NOT_EXIST.TECHNICIAN);
+          return;
+        }
+        delete item.initiator;
+        delete item.initiatorId;
+        item.initiator = { id: initiatorId };
+        LoggerUtility.info(`${logHeader} valid initiator ${initiatorId}`);
+        const addressId = item.address ? item.address.id : item.addressId;
+        if (addressId && ! await AddressesService.exists(addressId)) {
+          reject(VALID_RESPONSES.ERROR.NOT_EXIST.MACHINE);
+          return;
+        }
+        delete item.address;
+        delete item.addressId;
+        item.address = { id: addressId };
+        LoggerUtility.info(`${logHeader} valid address ${addressId}`);
+        if (!item.dateCall) {
+          item.dateCall = new Date();
+        }
+        item = TasksService.removeUnsafeProperties(item);
+        LoggerUtility.debug(`${logHeader}`, item);
+        const newItem = await getConnection().manager.save(Tasks, item);
+        LoggerUtility.info(`${logHeader} success ${newItem.id}`);
+        LoggerUtility.debug(`${logHeader}`, newItem);
+        resolve(this.getById({ id: newItem.id, deleted: Deleted.ALL }));
+        return;
     });
   }
 
