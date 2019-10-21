@@ -1,12 +1,13 @@
 "use strict";
 
+import { Technicians } from "../databases/entities";
 import { TechniciansService } from "../service";
 import { CustomNext, CustomRequest, CustomResponse } from "../utils/customsHandlers";
 import { ParametersComplete, ParametersIdDeleted, Utilities } from "../utils/utilities";
 import { ResponsePayload } from "../utils/writer";
 
 module.exports.addTechnician = (req: CustomRequest, res: CustomResponse, next: CustomNext) => {
-  const body = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
+  const body: Technicians = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
   if (!body) {
     return;
   }
@@ -32,7 +33,7 @@ module.exports.deleteTechnician = (req: CustomRequest, res: CustomResponse, next
 };
 
 module.exports.editTechnician = (req: CustomRequest, res: CustomResponse, next: CustomNext) => {
-  const body = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
+  const body: Technicians = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
   if (!body) {
     return;
   }

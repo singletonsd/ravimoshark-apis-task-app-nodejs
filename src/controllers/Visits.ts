@@ -1,12 +1,13 @@
 "use strict";
 
+import { Visits } from "../databases/entities";
 import { VisitsService } from "../service";
 import { CustomNext, CustomRequest, CustomResponse } from "../utils/customsHandlers";
 import { ParametersComplete, ParametersIdDeleted, Utilities } from "../utils/utilities";
 import { ResponsePayload } from "../utils/writer";
 
 module.exports.addVisit = (req: CustomRequest, res: CustomResponse, next: CustomNext) => {
-  const body = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
+  const body: Visits = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
   if (!body) {
     return;
   }
@@ -32,7 +33,7 @@ module.exports.deleteVisit = (req: CustomRequest, res: CustomResponse, next: Cus
 };
 
 module.exports.editVisit = (req: CustomRequest, res: CustomResponse, next: CustomNext) => {
-  const body = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
+  const body: Visits = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
   if (!body) {
     return;
   }
