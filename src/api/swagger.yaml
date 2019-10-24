@@ -47,8 +47,8 @@ paths:
         - $ref: '#/components/parameters/Deleted'
         - $ref: '#/components/parameters/Metadata'
         - $ref: '#/components/parameters/RefClientQuery'
-        - $ref: '#/components/parameters/Finished'
         - $ref: '#/components/parameters/TechnicianIdQuery'
+        - $ref: "#/components/parameters/TaskIdQuery"
         - $ref: '#/components/parameters/DateFrom'
         - $ref: '#/components/parameters/DateUntil'
       responses:
@@ -508,6 +508,8 @@ paths:
         - $ref: '#/components/parameters/Metadata'
         - $ref: '#/components/parameters/RefClientQuery'
         - $ref: '#/components/parameters/TechnicianIdQuery'
+        - $ref: "#/components/parameters/DateFrom"
+        - $ref: "#/components/parameters/DateUntil"
       responses:
         '200':
           description: Request OK.
@@ -1128,13 +1130,22 @@ components:
         type: integer
         format: int32
         default: 0
+    TaskIdQuery:
+      name: "taskId"
+      description: "Id of the task associated"
+      in: "query"
+      required: false
+      schema:
+        type: "integer"
+        format: "int64"
     TechnicianIdQuery:
       name: technicianId
-      description: Data from a desired technician
+      description: Id from a desired technician
       in: query
       required: false
       schema:
-        type: string
+        type: "integer"
+        format: "int64"
   headers:
     Limit:
       description: The number of allowed requests in the current period
