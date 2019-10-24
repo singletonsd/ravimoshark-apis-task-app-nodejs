@@ -679,8 +679,7 @@ components:
         streetName:
           type: string
         streetNumber:
-          type: integer
-          format: int64
+          type: string
         telephone:
           type: string
     Clients:
