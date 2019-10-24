@@ -860,6 +860,12 @@ components:
         ratingTech:
           type: integer
           format: int64
+        gpsStatusCode:
+          type: integer
+          format: int64
+        code:
+          type: integer
+          format: int64
         interventions:
           type: array
           items:
