@@ -87,14 +87,15 @@ export class Tasks {
         name: "DescriptionDepan",
         nullable: true
     })
-    public descriptionDepan?: string | null;
+    public solution?: string | null;
 
     @Column("bit", {
         default: () => "(0)",
         name: "SAVPayant",
-        nullable: true
+        nullable: true,
+        select: false
     })
-    public solution?: boolean | null;
+    public SAVPayant?: boolean | null;
 
     @Column("int", {
         name: "Code",
