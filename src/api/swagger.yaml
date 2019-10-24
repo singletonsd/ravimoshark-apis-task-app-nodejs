@@ -857,11 +857,11 @@ components:
           type: integer
           format: int64
         ratingClient:
-          type: integer
-          format: int64
+          type: number
+          format: float
         ratingTech:
-          type: integer
-          format: int64
+          type: number
+          format: float
         gpsStatusCode:
           type: integer
           format: int64
