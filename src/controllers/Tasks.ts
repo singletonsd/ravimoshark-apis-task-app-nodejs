@@ -1,12 +1,13 @@
 "use strict";
 
+import { Tasks } from "../databases/entities";
 import { TasksService } from "../service";
 import { CustomNext, CustomRequest, CustomResponse } from "../utils/customsHandlers";
 import { ParametersComplete, ParametersIdDeleted, Utilities } from "../utils/utilities";
 import { ResponsePayload } from "../utils/writer";
 
 module.exports.addTask = (req: CustomRequest, res: CustomResponse, next: CustomNext) => {
-  const body = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
+  const body: Tasks = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
   if (!body) {
     return;
   }
@@ -32,7 +33,7 @@ module.exports.deleteTask = (req: CustomRequest, res: CustomResponse, next: Cust
 };
 
 module.exports.editTask = (req: CustomRequest, res: CustomResponse, next: CustomNext) => {
-  const body = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
+  const body: Tasks = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
   if (!body) {
     return;
   }

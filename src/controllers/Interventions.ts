@@ -1,12 +1,13 @@
 "use strict";
 
+import { Interventions } from "../databases/entities";
 import { InterventionsService } from "../service";
 import { CustomNext, CustomRequest, CustomResponse } from "../utils/customsHandlers";
 import { ParametersComplete, ParametersIdDeleted, Utilities } from "../utils/utilities";
 import { ResponsePayload } from "../utils/writer";
 
 module.exports.addIntervention = (req: CustomRequest, res: CustomResponse, next: CustomNext) => {
-  const body = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
+  const body: Interventions = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
   if (!body) {
     return;
   }
@@ -32,7 +33,7 @@ module.exports.deleteIntervention = (req: CustomRequest, res: CustomResponse, ne
 };
 
 module.exports.editIntervention = (req: CustomRequest, res: CustomResponse, next: CustomNext) => {
-  const body = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
+  const body: Interventions = Utilities.checkVariableNotNull(req.swagger.params.undefined.originalValue, res);
   if (!body) {
     return;
   }

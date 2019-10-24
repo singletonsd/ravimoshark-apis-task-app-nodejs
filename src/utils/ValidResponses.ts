@@ -15,7 +15,11 @@ export const VALID_RESPONSES = {
         },
         NOT_DELETED: "error.not_deleted",
         NOT_EXIST: {
+            ADDRESS: "error.not_exist.address",
+            CLIENT: "error.not_exist.client",
+            INITIATOR: "error.not_exist.initiator",
             INTERVENTION: "error.not_exist.intervention",
+            MACHINE: "error.not_exist.machine",
             TASK: "error.not_exist.task",
             TECHNICIAN: "error.not_exist.technician",
             VISIT: "error.not_exist.visit"
