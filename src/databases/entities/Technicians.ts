@@ -101,6 +101,9 @@ export class Technicians {
     @OneToMany(() => Tasks, (tasks: Tasks) => tasks.technician)
     public tasks?: Array<Tasks>;
 
+    @OneToMany(() => Tasks, (tasks: Tasks) => tasks.initiator)
+    public tasksInitiator?: Array<Tasks>;
+
     @OneToMany(() => Visits, (visits: Visits) => visits.technician)
     public visits?: Array<Visits>;
 

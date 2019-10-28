@@ -20,11 +20,11 @@ export class Tasks {
     @RelationId((taches: Tasks) => taches.technician)
     public technicianId?: number;
 
-    @ManyToOne(() => Technicians, (technician: Technicians) => technician.tasks, {})
+    @ManyToOne(() => Technicians, (technician: Technicians) => technician.tasksInitiator, {})
     @JoinColumn({ name: "Initiator" })
     public initiator?: Technicians | null;
 
-    @RelationId((taches: Tasks) => taches.technician)
+    @RelationId((taches: Tasks) => taches.initiator)
     public initiatorId?: number;
 
     @ManyToOne(() => Machines, (machine: Machines) => machine.tasks, {})
