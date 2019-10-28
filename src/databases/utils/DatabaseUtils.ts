@@ -99,7 +99,7 @@ export class DatabaseUtilities {
     } else if (entity === Machines) {
       finalRelations = [ "piece", "interventions" ];
     } else if (entity === Tasks) {
-      finalRelations = [ "address", "interventions", "machine", "technician", "initiator" ];
+      finalRelations = [ "address", "address.client", "interventions", "machine", "machine.piece", "technician", "initiator" ];
     } else if (entity === Technicians) {
       // finalRelations = [ "tasks", "visits" ];
     } else if (entity === Visits) {
